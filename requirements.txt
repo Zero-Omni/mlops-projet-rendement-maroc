@@ -1,0 +1,10 @@
+mlflow
+scikit-learn
+pandas
+numpy
+joblib
+pyyaml
+matplotlib
+openpyxl
+dvc
+flaml[automl]
