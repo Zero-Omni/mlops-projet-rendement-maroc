@@ -1,0 +1,5 @@
+outs:
+- md5: 6cc0cc3f20506c79fd6fb570643bdeee
+  size: 346970
+  hash: md5
+  path: production-vegetale.xlsx
