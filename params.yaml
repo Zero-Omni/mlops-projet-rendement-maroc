@@ -1,0 +1,20 @@
+donnees:
+  nb_cultures: 25              # "principales cultures" = les N plus etendues (superficie moyenne)
+  min_campagnes: 10            # une culture doit avoir au moins N campagnes valides
+  filieres_exclues: ['Jachère']  # pas de rendement pour la jachere
+
+preparation:
+  n_campagnes_test: 2          # les 2 dernieres campagnes cibles servent de test
+  n_campagnes_val: 1           # la campagne cible juste avant sert de validation
+
+entrainement:
+  n_estimators: 300            # nombre d'arbres
+  max_depth: 8                 # profondeur maximale
+  min_samples_leaf: 2          # taille minimale d'une feuille
+  random_state: 42
+
+evaluation:
+  n_repeats: 30                # repetitions de l'importance par permutation
+
+validation:
+  gain_min: 0.0                # le modele doit faire mieux que la persistance d'au moins ce gain (0.05 = 5 %)

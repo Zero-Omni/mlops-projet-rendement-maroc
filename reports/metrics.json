@@ -1,0 +1,11 @@
+{
+  "mae": 1.3728,
+  "rmse": 2.5725,
+  "r2": 0.9823,
+  "wmape": 0.099,
+  "mae_persistance": 1.9168,
+  "gain_vs_persistance": 0.2838,
+  "val_mae": 1.4411,
+  "val_gain_vs_persistance": 0.1382,
+  "n_test": 50
+}

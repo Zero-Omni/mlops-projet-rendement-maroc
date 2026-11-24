@@ -1,0 +1,48 @@
+stages:
+  preparer:
+    cmd: python src/preparer.py
+    deps:
+      - data/production.csv
+      - src/preparer.py
+    params:
+      - donnees.nb_cultures
+      - donnees.min_campagnes
+      - donnees.filieres_exclues
+      - preparation.n_campagnes_test
+      - preparation.n_campagnes_val
+    outs:
+      - data/prepare/train.csv
+      - data/prepare/val.csv
+      - data/prepare/test.csv
+      - data/prepare/prochaine.csv
+  entrainer:
+    cmd: python src/entrainer.py
+    deps:
+      - data/prepare/train.csv
+      - src/entrainer.py
+      - src/commun.py
+    params:
+      - entrainement.n_estimators
+      - entrainement.max_depth
+      - entrainement.min_samples_leaf
+      - entrainement.random_state
+    outs:
+      - models/model.pkl
+  evaluer:
+    cmd: python src/evaluer.py
+    deps:
+      - data/prepare/val.csv
+      - data/prepare/test.csv
+      - models/model.pkl
+      - src/evaluer.py
+      - src/commun.py
+    params:
+      - evaluation.n_repeats
+    outs:
+      - reports/importances.json
+      - reports/importances.png
+      - reports/erreurs_par_culture.csv
+      - reports/prediction_vs_reel.png
+    metrics:
+      - reports/metrics.json:
+          cache: false

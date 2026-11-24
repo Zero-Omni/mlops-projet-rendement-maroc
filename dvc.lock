@@ -1,0 +1,111 @@
+schema: '2.0'
+stages:
+  preparer:
+    cmd: python src/preparer.py
+    deps:
+    - path: data/production.csv
+      hash: md5
+      md5: bb77d2e82db91c3a65094f0396567df5
+      size: 57269
+    - path: src/preparer.py
+      hash: md5
+      md5: d43802a54ca9e0c6b9f12e416ec6da6d
+      size: 3342
+    params:
+      params.yaml:
+        donnees.filieres_exclues:
+        - Jachère
+        donnees.min_campagnes: 10
+        donnees.nb_cultures: 25
+        preparation.n_campagnes_test: 2
+        preparation.n_campagnes_val: 1
+    outs:
+    - path: data/prepare/prochaine.csv
+      hash: md5
+      md5: dfa0e5df0e9ce238d8b575b3fd707862
+      size: 4641
+    - path: data/prepare/test.csv
+      hash: md5
+      md5: 49d8e1d9448be18bdb0d16659a9b3205
+      size: 10599
+    - path: data/prepare/train.csv
+      hash: md5
+      md5: 12520b71642ed60e6a960619f871c740
+      size: 21199
+    - path: data/prepare/val.csv
+      hash: md5
+      md5: 183c43d2d5501223b404629eed5e5774
+      size: 5343
+  entrainer:
+    cmd: python src/entrainer.py
+    deps:
+    - path: data/prepare/train.csv
+      hash: md5
+      md5: 12520b71642ed60e6a960619f871c740
+      size: 21199
+    - path: src/commun.py
+      hash: md5
+      md5: 6325201313332e72685c6ffe2d27a40a
+      size: 1964
+    - path: src/entrainer.py
+      hash: md5
+      md5: ff4f5633396d85ef28c5c490bc3a3f2f
+      size: 512
+    params:
+      params.yaml:
+        entrainement.max_depth: 8
+        entrainement.min_samples_leaf: 2
+        entrainement.n_estimators: 300
+        entrainement.random_state: 42
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 006028f914ac638a8d46314a396320f2
+      size: 1192570
+  evaluer:
+    cmd: python src/evaluer.py
+    deps:
+    - path: data/prepare/test.csv
+      hash: md5
+      md5: 49d8e1d9448be18bdb0d16659a9b3205
+      size: 10599
+    - path: data/prepare/val.csv
+      hash: md5
+      md5: 183c43d2d5501223b404629eed5e5774
+      size: 5343
+    - path: models/model.pkl
+      hash: md5
+      md5: 006028f914ac638a8d46314a396320f2
+      size: 1192570
+    - path: src/commun.py
+      hash: md5
+      md5: 6325201313332e72685c6ffe2d27a40a
+      size: 1964
+    - path: src/evaluer.py
+      hash: md5
+      md5: b2956ec5487e8905f888cf669d165657
+      size: 2449
+    params:
+      params.yaml:
+        evaluation.n_repeats: 30
+    outs:
+    - path: reports/erreurs_par_culture.csv
+      hash: md5
+      md5: b87e71999ce5561e232cb7b9b1d84b3f
+      size: 634
+    - path: reports/importances.json
+      hash: md5
+      md5: 3137a8c01729f9e8a96b67045d068eee
+      size: 274
+    - path: reports/importances.png
+      hash: md5
+      md5: a81325044e8f0a483d172d8540ffae7e
+      size: 24700
+    - path: reports/metrics.json
+      hash: md5
+      md5: a636c1652db6542d45891b8ecb8cf6f1
+      size: 217
+    - path: reports/prediction_vs_reel.png
+      hash: md5
+      md5: 0ff90d451b15520dc5cd5cb1bce368d5
+      size: 23804
